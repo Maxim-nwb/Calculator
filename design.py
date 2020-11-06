@@ -5,16 +5,16 @@ import tkinter as tk
 #-----------------------------------------------GIU----------------------------------------------------------------
 #------------------------------Main window
 MainWindow = tk.Tk()
-MainWindow.geometry('324x225')
+MainWindow.geometry('350x225')
 MainWindow.resizable(width=False, height=False)
 MainWindow.title('Calculator')
 MainWindow.iconbitmap('icon.ico')
 
 #----------------------------Input boxes
-BoxHistory = tk.Entry(MainWindow, width = 23, font = 'Times 12', justify=tk.RIGHT)
+BoxHistory = tk.Label(MainWindow, width = 23, font = 'Times 12', text= 'BoxHistory', anchor = tk.E, bg='#AFEEEE')
 BoxHistory.grid(column = 0, row = 0, columnspan = 4, sticky=tk.W+tk.E+tk.N+tk.S)
 
-BoxMain = tk.Entry(MainWindow, width = 23, font = 'Times 20', justify=tk.RIGHT)
+BoxMain = tk.Label(MainWindow, width = 23, font = 'Times 20', text = 'BoxMain', anchor = tk.E, bg='#40E0D0')
 BoxMain.grid(column = 0, row = 1, columnspan = 4, sticky=tk.W+tk.E+tk.N+tk.S)
 #----------------------------------Buttons
 
