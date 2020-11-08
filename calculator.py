@@ -31,9 +31,14 @@ def clear():
     # function clear BoxMain and BoxHistory
     global Expression
     global HistoryExpression
+    global NumberOne
+    global NumberTwo
     # changing the trace variable
     HistoryExpression = ''
     Expression = ''
+    # setting the variables to their initial position
+    NumberOne = None
+    NumberTwo = None
     # set changes
     LabelBoxMain.set(Expression)
     LabelBoxHistory.set(HistoryExpression)
@@ -44,25 +49,29 @@ def delete():
     Expression = Expression[:-1]
     LabelBoxMain.set(Expression)
 
-
 def pow_actions():
     global Expression
     global HistoryExpression
+    # adding an entry to BoxHistory
     HistoryExpression = 'sqrt({0})'.format(Expression)
     LabelBoxHistory.set(HistoryExpression)
+    # count
     Expression = str(float(Expression)**2)
     LabelBoxMain.set(Expression)
 
 def sqrt_actions():
     global Expression
     global HistoryExpression
+    # adding an entry to BoxHistory
     HistoryExpression = '√ {0}'.format(Expression)
     LabelBoxHistory.set(HistoryExpression)
+    # count
     Expression = str(math.sqrt(float(Expression)))
     LabelBoxMain.set(Expression)
 
 def equal(x,y,act):
     solution = None
+    # check what action needs to be performed
     if act == " + ":
         solution = x + y
     if act == " - ":
@@ -78,30 +87,41 @@ def get_actions(event, i):
     global HistoryExpression
     global NumberOne
     global NumberTwo
-    LastExpression = Expression
-    # checking for variables
-    if NumberOne is not None:
-        NumberTwo = float(Expression)
+
+    # if the user accidentally clicks on the same sign several times in a row, no action will be performed
+    if str(NumberOne) == Expression and HistoryExpression[-3:] == i:
+        pass
+    # if the user selected an action and then changed it, change the sign
+    elif str(NumberOne) == Expression and HistoryExpression[-3:] != i and i != " = ":
+        HistoryExpression = HistoryExpression[:-3] + i
+        LabelBoxHistory.set(HistoryExpression)
     else:
-        NumberOne = float(Expression)
-    # if there are two variables and there is an action we perform it
-    if (NumberOne and NumberTwo) is not None:
-        NumberOne = equal(NumberOne, NumberTwo, HistoryExpression[-3:])
-        # recording the result for entering in BoxMain
-        Expression = str(NumberOne)
-        # update variables
-        NumberTwo = None
-    else:
-        Expression = ''
-        # get actions in BoxHistory
-    HistoryExpression += LastExpression + i
-    LabelBoxHistory.set(HistoryExpression)
-    LabelBoxMain.set(Expression)
+        LastExpression = Expression
+        # checking for variables
+        if NumberOne is not None:
+            NumberTwo = float(Expression)
+        else:
+            NumberOne = float(Expression)
+        # if there are two variables and there is an action we perform it
+        if (NumberOne and NumberTwo) is not None:
+            NumberOne = equal(NumberOne, NumberTwo, HistoryExpression[-3:])
+            # recording the result for entering in BoxMain
+            Expression = str(NumberOne)
+            # update variables
+            NumberTwo = None
+        else:
+            Expression = ''
+            # get actions in BoxHistory
+        HistoryExpression += LastExpression + i
+        LabelBoxHistory.set(HistoryExpression)
+        LabelBoxMain.set(Expression)
 
 def get_numbers(event, i):
     # get numbers in BoxMain
     global Expression
     global NumberOne
+    #chek ..
+    if i == "." and Expression.count("."): i = ""
     # if the answer to the last calculation is in BoxMain then we clear it
     if str(NumberOne) == Expression:
         Expression = ''
@@ -170,11 +190,11 @@ btn_div.bind('<Button-1>', lambda event, numb =' / ': get_actions(event, numb))
 
 btn_equal = tk.Button(MainWindow, text="=")  
 btn_equal.grid(column=2, row=6, sticky=tk.W+tk.E+tk.N+tk.S)
-btn_equal.bind('<Button-1>', lambda event, numb =' = ': get_actions(event, numb)) # add functions
+btn_equal.bind('<Button-1>', lambda event, numb =' = ': get_actions(event, numb))
 
 btn_dot = tk.Button(MainWindow, text=".")  
 btn_dot.grid(column=1, row=6, sticky=tk.W+tk.E+tk.N+tk.S)
-btn_dot.bind('<Button-1>', lambda event, numb ='.': get_numbers(event, numb)) #change for chek ..
+btn_dot.bind('<Button-1>', lambda event, numb ='.': get_numbers(event, numb))
 
 btn_del = tk.Button(MainWindow, text="⌫", command = delete)  
 btn_del.grid(column=3, row=2, sticky=tk.W+tk.E+tk.N+tk.S)
