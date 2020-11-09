@@ -43,7 +43,7 @@ def clear():
     LabelBoxMain.set(Expression)
     LabelBoxHistory.set(HistoryExpression)
 
-def delete():
+def delete(event='<KeyPress event state=Mod1|0x40000 keysym=Delete keycode=46 x=221 y=-52>'):
     # function delete last char in BoxMain
     global Expression
     Expression = Expression[:-1]
@@ -122,6 +122,9 @@ def get_numbers(event, i):
     global NumberOne
     #chek ..
     if i == "." and Expression.count("."): i = ""
+    # clear memory for new expression
+    if "=" in LabelBoxHistory.get():
+        clear()
     # if the answer to the last calculation is in BoxMain then we clear it
     if str(NumberOne) == Expression:
         Expression = ''
@@ -199,6 +202,7 @@ btn_dot.bind('<Button-1>', lambda event, numb ='.': get_numbers(event, numb))
 btn_del = tk.Button(MainWindow, text="⌫", command = delete)  
 btn_del.grid(column=3, row=2, sticky=tk.W+tk.E+tk.N+tk.S)
 
+
 btn_clear = tk.Button(MainWindow, text="C", command = clear)  
 btn_clear.grid(column=2, row=2, sticky=tk.W+tk.E+tk.N+tk.S)
 
@@ -210,6 +214,7 @@ btn_sqrt.grid(column=0, row=2, sticky=tk.W+tk.E+tk.N+tk.S)
 #-----------
 
 #-----------------------Processing keystrokes
+#-------Numbers
 MainWindow.bind('<Key-0>', lambda event, numb ='0': get_numbers(event, numb))
 
 MainWindow.bind('<Key-1>', lambda event, numb ='1': get_numbers(event, numb))
@@ -229,6 +234,22 @@ MainWindow.bind('<Key-7>', lambda event, numb ='7': get_numbers(event, numb))
 MainWindow.bind('<Key-8>', lambda event, numb ='8': get_numbers(event, numb))
 
 MainWindow.bind('<Key-9>', lambda event, numb ='9': get_numbers(event, numb))
+#--------Actions
+MainWindow.bind('<Key-+>', lambda event, numb =' + ': get_actions(event, numb))
+
+MainWindow.bind('<Key-->', lambda event, numb =' - ': get_actions(event, numb))
+
+MainWindow.bind('<Key-*>', lambda event, numb =' * ': get_actions(event, numb))
+
+MainWindow.bind('<Key-/>', lambda event, numb =' / ': get_actions(event, numb))
+
+MainWindow.bind('<Key-.>', lambda event, numb ='.': get_numbers(event, numb))
+
+MainWindow.bind('<Key-Return>', lambda event, numb =' = ': get_actions(event, numb))
+
+MainWindow.bind('<Key-BackSpace>', delete)
+MainWindow.bind('<Key-Delete>', delete)
+
 #-----------------------
 
 #-------Main
