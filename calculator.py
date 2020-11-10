@@ -52,22 +52,30 @@ def delete(event='<KeyPress event state=Mod1|0x40000 keysym=Delete keycode=46 x=
 def pow_actions():
     global Expression
     global HistoryExpression
+    # checks whether the values to convert to float are correct
+    if Expression == "." or Expression == "":
+        pass
     # adding an entry to BoxHistory
-    HistoryExpression = 'sqrt({0})'.format(Expression)
-    LabelBoxHistory.set(HistoryExpression)
+    else:
+        HistoryExpression = 'sqrt({0})'.format(Expression)
+        LabelBoxHistory.set(HistoryExpression)
     # count
-    Expression = str(float(Expression)**2)
-    LabelBoxMain.set(Expression)
+        Expression = str(float(Expression)**2)
+        LabelBoxMain.set(Expression)
 
 def sqrt_actions():
     global Expression
     global HistoryExpression
+    # checks whether the values to convert to float are correct
+    if Expression == "." or Expression == "":
+        pass
     # adding an entry to BoxHistory
-    HistoryExpression = '√ {0}'.format(Expression)
-    LabelBoxHistory.set(HistoryExpression)
+    else:
+        HistoryExpression = '√ {0}'.format(Expression)
+        LabelBoxHistory.set(HistoryExpression)
     # count
-    Expression = str(math.sqrt(float(Expression)))
-    LabelBoxMain.set(Expression)
+        Expression = str(math.sqrt(float(Expression)))
+        LabelBoxMain.set(Expression)
 
 def equal(x,y,act):
     solution = None
@@ -95,7 +103,15 @@ def get_actions(event, i):
     elif str(NumberOne) == Expression and HistoryExpression[-3:] != i and i != " = ":
         HistoryExpression = HistoryExpression[:-3] + i
         LabelBoxHistory.set(HistoryExpression)
+    # checks whether the values to convert to float are correct
+    elif Expression == "." or Expression == "":
+        pass
     else:
+        # work with complex expressions
+        if "√" in HistoryExpression or "sqrt" in HistoryExpression:
+            HistoryExpression = ""
+            LabelBoxHistory.set(HistoryExpression)
+            NumberOne = None
         LastExpression = Expression
         # checking for variables
         if NumberOne is not None:
