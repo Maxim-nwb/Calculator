@@ -57,7 +57,7 @@ def pow_actions():
         pass
     # adding an entry to BoxHistory
     else:
-        HistoryExpression = 'sqrt({0})'.format(Expression)
+        HistoryExpression = '{0}²'.format(Expression)
         LabelBoxHistory.set(HistoryExpression)
     # count
         Expression = str(float(Expression)**2)
@@ -99,6 +99,9 @@ def get_actions(event, i):
     # if the user accidentally clicks on the same sign several times in a row, no action will be performed
     if str(NumberOne) == Expression and HistoryExpression[-3:] == i:
         pass
+    # checking for correct use of "="
+    elif (HistoryExpression == "" or "√" in HistoryExpression or "²" in HistoryExpression) and i == " = ":
+        pass
     # clear memory for new expression after getting the result
     elif "=" in HistoryExpression and i != " = ":
         HistoryExpression = str(NumberOne) + i
@@ -114,7 +117,7 @@ def get_actions(event, i):
         pass
     else:
         # work with complex expressions
-        if "√" in HistoryExpression or "sqrt" in HistoryExpression:
+        if "√" in HistoryExpression or "²" in HistoryExpression:
             HistoryExpression = ""
             LabelBoxHistory.set(HistoryExpression)
             NumberOne = None
@@ -143,9 +146,9 @@ def get_numbers(event, i):
     global Expression
     global NumberOne
     #chek ..
-    if i == "." and Expression.count("."): i = ""
+    if i == "." and Expression.count(".") == 1: i = ""
     # clear memory for new expression
-    if "=" in LabelBoxHistory.get():
+    if "=" in LabelBoxHistory.get() or "√" in LabelBoxHistory.get() or "²" in LabelBoxHistory.get():
         clear()
     # if the answer to the last calculation is in BoxMain then we clear it
     if str(NumberOne) == Expression:
