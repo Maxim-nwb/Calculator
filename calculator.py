@@ -99,6 +99,12 @@ def get_actions(event, i):
     # if the user accidentally clicks on the same sign several times in a row, no action will be performed
     if str(NumberOne) == Expression and HistoryExpression[-3:] == i:
         pass
+    # clear memory for new expression after getting the result
+    elif "=" in HistoryExpression and i != " = ":
+        HistoryExpression = str(NumberOne) + i
+        LabelBoxHistory.set(HistoryExpression)
+        Expression = ""
+        LabelBoxMain.set(Expression)
     # if the user selected an action and then changed it, change the sign
     elif str(NumberOne) == Expression and HistoryExpression[-3:] != i and i != " = ":
         HistoryExpression = HistoryExpression[:-3] + i
