@@ -268,7 +268,7 @@ MainWindow.bind('<Key-*>', lambda event, numb =' * ': get_actions(event, numb))
 
 MainWindow.bind('<Key-/>', lambda event, numb =' / ': get_actions(event, numb))
 
-MainWindow.bind('<Key-.>', lambda event, numb ='.': get_numbers(event, numb))
+MainWindow.bind('<Key-,>', lambda event, numb ='.': get_numbers(event, numb))
 
 MainWindow.bind('<Key-Return>', lambda event, numb =' = ': get_actions(event, numb))
 
